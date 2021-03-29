@@ -1,2 +1,5 @@
 # js-ds-algs
-javascript data structures and algorithms
+
+- notes and demos about ***javascript data structures and algorithms***
+
+- courses from [trekhleb/javascript-algorithms](https://github.com/trekhleb/javascript-algorithms)
