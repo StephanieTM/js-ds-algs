@@ -79,18 +79,116 @@ export default class LinkedList {
     return deletedNode;
   }
 
-  find({ value = undefined, callback = undefined }) {}
+  find({ value = undefined, callback = undefined }) {
+    if (!this.head) {
+      return null;
+    }
 
-  deleteTail() {}
+    let currentNode = this.head;
 
-  deleteHead() {}
+    while (currentNode) {
+      // 优先使用callback判断是否命中被寻找元素
+      if (callback && callback(currentNode.value)) {
+        return currentNode;
+      }
 
-  fromArray(values) {}
+      if (value !== undefined && this.compare.equal(value, currentNode.value)) {
+        return currentNode;
+      }
 
-  toArray() {}
+      currentNode = currentNode.next;
+    }
 
-  toString(callback) {}
+    return null;
+  }
 
-  reverse() {}
+  deleteTail() {
+    // 删除后与删除前的区别：tail变化，故计算出删除后的tail即可
+
+    const deletedTail = this.tail;
+
+    if (this.head === this.tail) {
+      this.head = null;
+      this.tail = null;
+
+      return deletedTail;
+    }
+
+    // 存放最终的tail
+    let currentNode = this.head;
+
+    // currentNode有下一个元素，但是下下个元素为空（下下个元素是tail），则删除下下个元素，且currentNode的新next是null
+    while (currentNode.next) {
+      if (!currentNode.next.next) {
+        currentNode.next = null;
+      } else {
+        currentNode = currentNode.next;
+      }
+    }
+
+    this.tail = currentNode;
+
+    return deletedTail;
+  }
+
+  deleteHead() {
+    if (!this.head) {
+      return null;
+    }
+
+    const deletedHead = this.head;
+
+    if (this.head.next) {
+      this.head = this.head.next;
+    } else {
+      this.head = null;
+      this.tail = null;
+    }
+
+    return deletedHead;
+  }
+
+  fromArray(values) {
+    values.forEach(value => this.append(value));
+
+    return this;
+  }
+
+  toArray() {
+    const nodes = [];
+    
+    let currentNode = this.head;
+    while (currentNode) {
+      nodes.push(currentNode);
+      currentNode = currentNode.next;
+    }
+
+    return nodes;
+  }
+
+  toString(callback) {
+    return this.toArray().map(node => node.toString(callback)).toString();
+  }
+
+  reverse() {
+    // TODO: how to understand
+    let currNode = this.head;
+    let prevNode = null;
+    let nextNode = null;
+
+    while (currNode) {
+      nextNode = currNode.next;
+
+      currNode.next = prevNode;
+
+      prevNode = currNode;
+      currNode = nextNode;
+    }
+
+    this.tail = this.head;
+    this.head = prevNode;
+
+    return this;
+  }
 
 }
