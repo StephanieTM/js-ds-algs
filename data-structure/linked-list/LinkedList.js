@@ -171,17 +171,36 @@ export default class LinkedList {
   }
 
   reverse() {
-    // TODO: how to understand
+    // =============================================================================================================
+    //                                        before: A -> B -> C -> D -> E -> null
+    //                                         after: E -> D -> C -> B -> A -> null
+    // =============================================================================================================
+    //                prevNode               |              currNode               |            nextNode
+    //   prevNode = currNode(next=>prevNode) |       currNode = currNode.next      |    nextNode = currNode.next
+    // --------------------------------------┼-------------------------------------┼--------------------------------
+    //                               null    |    A -> B -> C -> D -> E -> null    |                        null
+    //                          A -> null    |         B -> C -> D -> E -> null    |    B -> C -> D -> E -> null
+    //                     B -> A -> null    |              C -> D -> E -> null    |         C -> D -> E -> null
+    //                C -> B -> A -> null    |                   D -> E -> null    |              D -> E -> null
+    //           D -> C -> B -> A -> null    |                        E -> null    |                   E -> null
+    //      E -> D -> C -> B -> A -> null    |                             null    |                        null
+    // =============================================================================================================
+    // 
+
     let currNode = this.head;
     let prevNode = null;
     let nextNode = null;
 
     while (currNode) {
+      // nextNode临时存放原始链表的下一个元素
       nextNode = currNode.next;
 
       currNode.next = prevNode;
 
+      // prevNode存放最终的头元素，每个迭代都将上次计算的prevNode链接在currNode之后，并将新的currNode赋值给prevNode
       prevNode = currNode;
+
+      // currNode变成原始链表的下一个元素
       currNode = nextNode;
     }
 
