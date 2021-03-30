@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "demo": "babel-node",
-    "build": "babel lib -d dist",
+    "build": "babel index.js -d dist",
     "start": "npm run build && nodemon dist/index.js",
     "serve": "node dist/index.js"
   },
