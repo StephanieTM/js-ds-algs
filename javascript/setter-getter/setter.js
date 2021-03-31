@@ -8,6 +8,7 @@
 // 同一个对象中被set指定的属性不能有其他set或同名真值属性
 
 
+// ================================================================================================
 // define a setter on new objects in initializers; remove a setter with delete operator
 const language = {
   set current(name) {
@@ -28,6 +29,7 @@ delete language.current;
 console.log('language :>> ', language); // { log: [ 'EN', 'ZH' ] }
 
 
+// ================================================================================================
 // define a setter on existing objects using defineProperty
 const o = { a: 0 };
 
@@ -40,6 +42,7 @@ o.b = 10;
 console.log('o.a :>> ', o.a); // 5
 
 
+// ================================================================================================
 // use a computed property name
 const a = 1, b = 2;
 const expr = `${a}:${b}:${a+b}`;
