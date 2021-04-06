@@ -1,4 +1,4 @@
-# Listed List 链表
+# Linked List 链表
 
 - 链表
   - 数据元素的线性集合
@@ -17,3 +17,15 @@
   |           C -> B -> A -> null | D -> E -> null                |           D -> E -> null |
   |      D -> C -> B -> A -> null | E -> null                     |                E -> null |
   | E -> D -> C -> B -> A -> null | null                          |                     null |
+
+- 复杂度
+
+  - 时间复杂度
+
+    |访问|搜索|插入|删除|
+    |---|---|----|----|
+    |O(n)|O(n)|O(1)|O(n)|
+
+  - 空间复杂度
+
+    O(n)
