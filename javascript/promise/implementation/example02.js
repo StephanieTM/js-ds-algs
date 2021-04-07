@@ -1,0 +1,1 @@
+// https://github.com/kriskowal/q/blob/v1/design/README.md
