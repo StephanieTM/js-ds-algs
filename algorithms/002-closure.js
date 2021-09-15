@@ -54,3 +54,22 @@ console.log(counter1()); // 2
 const counter2 = makeCounter();
 console.log(counter2()); // 0
 console.log(counter2()); // 1
+
+// 5 编写一个像 sum(a)(b) = a+b 这样工作的 sum 函数。
+function sum(a) {
+  return function (b) {
+    return a + b;
+  }
+}
+
+// 6 未初始化
+let x = 1;
+
+function func() {
+  // 在 let x = 2; 之前是x的死区
+  console.log(x); // ReferenceError: Cannot access 'x' before initialization
+
+  let x = 2;
+}
+
+func();
