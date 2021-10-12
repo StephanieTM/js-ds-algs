@@ -1,3 +1,4 @@
+// 构造函数
 function Promise(executor) {
   // 2.1 Promise的状态
   // Promise必须处于以下三种状态之一：pending，fulfilled，rejected
@@ -57,3 +58,53 @@ function Promise(executor) {
     rejected(reason);
   }
 }
+
+// 2.2 then方法
+// 一个Promise必须提供then方法用于访问当前/最终值或拒绝原因
+// then方法接受两个参数：onFulfilled和onRejected
+Promise.prototype.then = function (onFulfilled, onRejected) {
+  const self = this;
+
+  let promise2;
+  // 2.2.7 then方法必须返回一个Promise
+  return (promise2 = new Promise(function (resolve, reject) {
+    // 2.2.2 如果onFulfilled是一个函数
+    // 2.2.2.1 它必须在Promise状态变为fulfilled之后被调用，并将Promise的值作为它的第一个参数
+    // 2.2.2.2 它不能在Promise状态变为fulfilled之前被调用
+    // 2.2.2.3 它最多只能被调用一次
+    if (self.state === 'fulfilled') {
+      // 2.2.4 onFulfilled或onRejected在执行上下文堆栈仅包含平台代码之前不得调用
+      // 3.1 这可以通过“宏任务”机制（例如setTimeout或setImmediate）或“微任务”机制（例如MutationObserver或Process.nextTick）实现
+      setTimeout(function () {
+        // 2.2.1 onFulfilled和onRejected都是可选参数
+        // 2.2.1.1 如果onFulfilled不是一个函数，它必须被忽略
+        if (typeof onFulfilled === 'function') {
+          try {
+            // 2.2.2.1 它必须在promise的状态变为fulfilled之后被调用，并将Promise的值作为它的第一个参数
+            // 2.2.5 onFulfilled和onRejected必须作为函数调用
+            const x = onFulfilled(self.data);
+            // 2.2.7.1 如果onFulfilled或onRejected返回了一个值x，则运行Promise处理程序
+            promiseResolutionProcedure(promise2, x, resolve, reject);
+          } catch (e) {
+            // 2.2.7.2 如果onFulfilled或onRejected抛出了一个异常，promise2必须用e作为reason来变为rejected状态
+            reject(e);
+          }
+        } else {
+          // 2.2.7.3 如果onFulfilled不是一个函数且promise1为fulfilled状态，promise2必须用和promise1一样的值来变为fulfilled状态
+        }
+      });
+    }
+
+    // 2.2.3 如果onRejected是一个函数
+    // 2.2.3.1 它必须在Promise状态变为rejected之后被调用，并将Promise的原因作为它的第一个参数
+    // 2.2.3.2 它不能在Promise状态变为rejected之前被调用
+    // 2.2.3.3 它最多只能被调用一次
+    else if (self.state === 'rejected') {
+
+    }
+  }));
+}
+
+function promiseResolutionProcedure() {}
+
+module.exports = Promise;
